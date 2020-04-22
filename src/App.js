@@ -28,7 +28,7 @@ function App() {
           result["data"].forEach((data) => {
             // For every transfer in the transaction (includes what accounts were credited and debited)
             data["transfers"].forEach((transfer) => {
-              // Make sure that we only include accounts that are not our own, that were debited during transaction.
+              // Make sure that we only include accounts that are not our own, that were credited during transaction.
               if (transfer["accountID"] !== accountId && transfer["amount"] > 0) {
                 if(!(transfer["accountID"] in accounts)) {
                   accounts[transfer["accountID"]] = 0;

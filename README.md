@@ -3,6 +3,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Little placeholder introduction
+Have you ever found yourself in the situation where your hbar is running lower than you would like, and you just can’t seem to figure out where you’re spending all of it? Well, fret no more!  In today’s blog post we’re going to be using the DragonGlass Hedera Data API to create a web app that will track outgoing transactions and finally give us some insight into where our precious hbar is being sent!
+
 ## Available Scripts
 
 In the project directory, you can run:
