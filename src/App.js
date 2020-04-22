@@ -6,6 +6,7 @@ function App() {
   var [accountId, setAccountId] = useState("");
   var [currentAccountId, setCurrentAccountId] = useState("");
   var [topPayments, setTopPayments] = useState([]);
+  var [loadingError, setLoadingError] = useState(null);
 
   var getAccountTransactions = () => {
     var headers = {
@@ -13,10 +14,16 @@ function App() {
     };
 
     fetch(`https://api.dragonglass.me/hedera/api/accounts/${accountId}/transactions?size=1000`, { headers })
-      .then(res => res.json())
+      .then(res => {
+        if (res.status == 200) {
+          return res.json()
+        } else {
+          throw `Error while connecting to DragonGlass: ${res.status}`;
+        }
+      })
       .then(
         (result) => {
-          var accounts = {};
+        var accounts = {};
           // For every data entry in the response (holds transaction details)
           result["data"].forEach((data) => {
             // For every transfer in the transaction (includes what accounts were credited and debited)
@@ -45,9 +52,11 @@ function App() {
 
           setTopPayments(sortedAccounts);
           setCurrentAccountId(accountId);
+          setLoadingError(null);
         },
         (error) => {
-          console.error(error)
+          setLoadingError(error);
+          console.error(error);
         }
       );
   };
@@ -76,7 +85,7 @@ function App() {
           </button>
         </form>
         {
-          currentAccountId !== "" ?
+          currentAccountId !== "" && loadingError == null ?
           <div className="leaderboard">
             <div className="leaderboard-header">
               <h2 className="leaderboard-title">
@@ -97,7 +106,9 @@ function App() {
                 )
               }
             </div>
-          </div> : null
+          </div> : (
+            loadingError ? <div>{loadingError}</div> : null
+          )
         }
       </div>
     </div>
