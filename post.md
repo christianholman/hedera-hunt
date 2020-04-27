@@ -128,16 +128,16 @@ body {
 Alright, phew, now that’s over, let’s get to creating the app!
 
 ## Getting your DragonGlass API key
-To get the transaction data needed for application, we’re going to need to use an API that will let us query a header mirror-node. A mirror-node is a node on the hedera network that reflects the state of the ledger but does not contribute to consensus. These mirror-nodes make it possible to query for transaction data without requiring the same fees that it would cost to directly query the main-net nodes. The hedera mirror-node API provider we’ll be using for this project is DragonGlass.
+To get the transaction data needed for application, we’re going to need to use an API that will let us query a hedera mirror-node. A mirror-node is a node on the hedera network that reflects the state of the ledger but does not contribute to consensus. These mirror-nodes make it possible to query for transaction data without requiring the same fees that it would cost to directly query the main-net nodes. The hedera mirror-node API provider we’ll be using for this project is [DragonGlass](https://dragonglass.me). 
 
 To get started with the DragonGlass API, we’re first going to need an account.
 
-1. Go to [DragonGlass - Live and Historical data for Hedera Hashgraph](https://app.dragonglass.me/hedera/signup) and sign up with your preferred email and password.
-2. Once your account is created, log in at [DragonGlass - Live and Historical data for Hedera Hashgraph](https://app.dragonglass.me/hedera/login).
+1. Go to [DragonGlass](https://app.dragonglass.me/hedera/signup) and sign up with your preferred email and password.
+2. Once your account is created, log in at [DragonGlass](https://app.dragonglass.me/hedera/login).
 
 Go to the top right, click the user icon, and select PROFILE from the dropdown.
-![](blogpostimages/profiledropdown.png)
 
+![](blogpostimages/profiledropdown.png)
 
 Under the MY API KEYS section, press GENERATE API KEY, and copy your access key somewhere you will find it again, as it will not be shown to you again. You can also download your keys if you prefer that.  You can regenerate your keys, so don’t be too worried about losing it down the road.
 ![](blogpostimages/apikeyoverview.png)
@@ -211,7 +211,7 @@ The `accountId` will hold the input of the search-bar, and the `currentAccountId
 After we’ve defined the state, let’s define the function that we will call to update the account transactions. 
 
 ```javascript
-	var getAccountTransactions = () => {
+  var getAccountTransactions = () => {
     var headers = {
       "x-api-key": "YOUR DRAGONGLASS API KEY",
     };
@@ -272,9 +272,11 @@ var headers = {
 };
 ```
 
-After that, we fetch the 1000 latest transactions of the `accountId` account, which returns the following. We also check if the response was a successful status code 200 to pass the json to the next .then() block, and if it wasn’t, we throw a simple error which we will use later to alert the user of our site.
+After that, we fetch the 1000 latest transactions of the `accountId` account, which returns the following: 
 
 ![](blogpostimages/apicall.png)
+
+We also check if the response was a successful status code 200 and pass the deserialized json to the next .then() block. If for some reason, the request was unsuccessful, we throw a simple error which we will use later to alert the user of our site.
 
 ```javascript
 fetch(`https://api.dragonglass.me/hedera/api/accounts/${accountId}/transactions?size=1000`, { headers })
@@ -287,7 +289,15 @@ fetch(`https://api.dragonglass.me/hedera/api/accounts/${accountId}/transactions?
     })
 ```
 
-In the case of a successful request, we create a new object to store the accounts which `accountId` has interacted with and loop through every transaction data. Every transaction consists of a few things, but we’re interested in the `transfers` field. The transfers field includes a list of accounts that have been debited (sent hbar) and credited (received hbar) during the transaction. We then make sure that we’re not we’re not including the `accountId` account, as it will have been receiving hbar over the course of the transactions, but we don’t want to include the `accountId` in the ranking of who has received the most hbar over the course of the transactions. 
+In the case of a successful request, we create a new object to store the
+accounts which `accountId` has interacted with and loop through every
+transaction data. Every transaction consists of a few things, but we’re
+interested in the `transfers` field. The transfers field includes a list of
+accounts that have been debited (sent hbar) and credited (received hbar) during
+the transaction. We then make sure that we’re not we’re not including the
+`accountId` account, as it will have been receiving hbar over the course of the
+transactions, but we don’t want to include the `accountId` in the ranking of
+who has received the most hbar over the course of the transactions. 
 
 ```javascript
 (result) => {
