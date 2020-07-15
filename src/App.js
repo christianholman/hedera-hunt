@@ -10,7 +10,7 @@ function App() {
 
   var getAccountTransactions = () => {
     var headers = {
-      "x-api-key": "YOUR DRAGONGLASS API KEY",
+      "x-api-key": "YOUR DRAGONGLASS API SECRET",
     };
 
     fetch(`https://api.dragonglass.me/hedera/api/accounts/${accountId}/transactions?size=1000`, { headers })

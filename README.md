@@ -1,74 +1,43 @@
 ## Screenshot
 ![Screenshot](screenshot.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## CAUTION!
+This app exposes your DragonGlass API Secret on the frontend, **do not** use in production!
 
-## Little placeholder introduction
+## Tiny little introduction 
 Have you ever found yourself in the situation where your hbar is running lower than you would like, and you just can’t seem to figure out where you’re spending all of it? Well, fret no more!  In today’s blog post we’re going to be using the DragonGlass Hedera Data API to create a web app that will track outgoing transactions and finally give us some insight into where our precious hbar is being sent!
 
-## Available Scripts
+## Getting your DragonGlass API key
+To get the transaction data needed for application, we’re going to need to use an API that will let us query a hedera mirror-node. A mirror-node is a node on the hedera network that keeps a historical record of the ledger's state, but does not contribute to consensus. These mirror-nodes make it possible to query for historical data, which would be expensive to keep on the mainnet nodes. The hedera mirror-node API provider we’ll be using for this project is [DragonGlass](https://dragonglass.me). 
 
-In the project directory, you can run:
+To get started with the DragonGlass API, we’re first going to need an account.
 
-### `yarn start`
+1. Go to [DragonGlass](https://app.dragonglass.me/hedera/signup) and sign up with your preferred email and password.
+2. Once your account is created, log in at [DragonGlass](https://app.dragonglass.me/hedera/login).
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Go to the top right, click the user icon, and select PROFILE from the dropdown.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+![](blogpostimages/profiledropdown.png)
 
-### `yarn test`
+Under the MY API KEYS section, press GENERATE API KEY, and copy your access key somewhere you will find it again, as it will not be shown to you again. You can also download your keys if you prefer that.  You can regenerate your keys, so don’t be too worried about losing it down the road.
+![](blogpostimages/apikeyoverview.png)
+![](blogpostimages/accesskeyscreen)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Now that we have our access key, we’re good to go. You can check out more API endpoints and their responses at [DragonGlass - Live and Historical data for Hedera Hashgraph](https://app.dragonglass.me/hedera/apiview#responses).
 
-### `yarn build`
+## Running the website
+First enter the DragonGlass API Secret key from the previous step into App.js 
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```js
+var getAccountTransactions = () => {
+  var headers = {
+    "x-api-key": "YOUR DRAGONGLASS API SECRET",
+  };
+  ...
+```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Second, run the program with the command 
+```
+npm run start
+``` 
+This will host the application on localhost:3000, which you can now access in your browser.
